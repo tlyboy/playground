@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "monaco-playground": "^0.34.1",
+    "monaco-editor": "^0.34.1",
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
