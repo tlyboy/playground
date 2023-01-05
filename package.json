@@ -1,0 +1,24 @@
+{
+  "name": "editor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint --fix ."
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "monaco-editor": "^0.34.1",
+    "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.1",
+    "vite": "^4.0.0"
+  }
+}
