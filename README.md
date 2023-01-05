@@ -1,3 +1,3 @@
-# editor
+# playground
 
-Guany editor.
+Guany playground.
