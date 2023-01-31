@@ -7,15 +7,15 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint --fix ."
+    "lint": "eslint ."
   },
   "dependencies": {
     "monaco-editor": "^0.34.1",
     "normalize.css": "^8.0.1",
-    "theme-vitesse": "^0.6.0"
+    "theme-vitesse": "^0.6.2"
   },
   "devDependencies": {
-    "eslint": "^8.32.0",
+    "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.3",
