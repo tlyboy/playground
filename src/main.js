@@ -6,7 +6,7 @@ import vitesseDark from 'theme-vitesse/themes/vitesse-dark.json'
 
 monaco.editor.defineTheme('vitesse-dark', vitesseDark)
 
-monaco.editor.create(document.getElementById('app'), {
+monaco.editor.create(document.querySelector('.home'), {
   value: '',
   language: 'javascript',
   theme: 'vitesse-dark',
