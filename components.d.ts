@@ -17,7 +17,6 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TCodeEditor: typeof import('./src/components/TCodeEditor.vue')['default']
     TEditor: typeof import('./src/components/TEditor.vue')['default']
     TMonacoEditor: typeof import('./src/components/TMonacoEditor.vue')['default']
     TNavBar: typeof import('./src/components/TNavBar.vue')['default']

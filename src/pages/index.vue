@@ -9,9 +9,44 @@ const playgroundStore = usePlaygroundStore()
 
 const code = ref(playgroundStore.code)
 
-function clearCode(value: string) {
-  playgroundStore.clearCode(value)
+function runCode() {
+  if (!code.value)
+    return
+
+  const codeEl = document.createElement('script')
+
+  codeEl.id = 'code'
+  codeEl.type = 'module'
+  codeEl.textContent = code.value
+
+  const oldCodeEl = document.getElementById('code')
+
+  oldCodeEl?.remove()
+
+  console.clear()
+  document.body.appendChild(codeEl)
+
+  if (playgroundStore.code !== code.value)
+    playgroundStore.code = code.value
+}
+
+function saveCode() {
+  if (playgroundStore.code === code.value)
+    return
+
+  playgroundStore.code = code.value
+
+  ElMessage.success('保存成功')
+}
+
+function clearCode() {
+  if (!code.value)
+    return
+
   code.value = ''
+  playgroundStore.code = ''
+
+  ElMessage.success('清空成功')
 }
 </script>
 
@@ -24,7 +59,7 @@ function clearCode(value: string) {
             <el-button
               type="primary"
               plain
-              @click="playgroundStore.runCode(code)"
+              @click="runCode"
             >
               <template #icon>
                 <div i-carbon-play />
@@ -36,7 +71,7 @@ function clearCode(value: string) {
             <el-button
               type="success"
               plain
-              @click="playgroundStore.saveCode(code)"
+              @click="saveCode"
             >
               <template #icon>
                 <div i-carbon-save />
@@ -48,7 +83,7 @@ function clearCode(value: string) {
             <el-button
               type="danger"
               plain
-              @click="clearCode(code)"
+              @click="clearCode"
             >
               <template #icon>
                 <div i-carbon-trash-can />
@@ -70,8 +105,8 @@ function clearCode(value: string) {
           v-model="code"
           lang="javascript"
           h="[calc(100vh_-_60px)]"
-          @keydown.ctrl.s.prevent="playgroundStore.saveCode(code)"
-          @keydown.f5.prevent="playgroundStore.runCode"
+          @keydown.ctrl.s.prevent="saveCode"
+          @keydown.f5.prevent="runCode"
         />
       </el-scrollbar>
     </el-main>
