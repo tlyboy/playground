@@ -14,7 +14,7 @@ const { modelValue } = defineModels<{
 <template>
   <TMonacoEditor
     v-model="modelValue"
-    v-bind="$attrs "
+    v-bind="$attrs"
     :options="{
       theme: isDark ? 'vitesse-dark' : 'vitesse-light',
       bracketPairColorization: {
