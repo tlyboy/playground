@@ -5,7 +5,6 @@ export const usePlaygroundStore = defineStore('playground', () => {
 
   return {
     code,
-
   }
 }, {
   persist: true,
