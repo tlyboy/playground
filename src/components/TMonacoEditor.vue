@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import * as Monaco from 'monaco-editor'
-import { computed, onMounted, ref, watch } from 'vue'
 
 interface Props {
   /**
