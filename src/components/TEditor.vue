@@ -26,10 +26,6 @@ onMounted(() => {
   editor = editorRef.value!.$editor
   editorRef.value = editor
 })
-
-onUnmounted(() => {
-  editor?.dispose()
-})
 </script>
 
 <template>
