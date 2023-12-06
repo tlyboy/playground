@@ -51,9 +51,6 @@ onMounted(() => {
 })
 
 function runCode() {
-  if (!code.value)
-    return
-
   console.clear()
 
   const oldCodeEl = document.getElementById('code')
@@ -73,9 +70,6 @@ function runCode() {
 }
 
 async function saveCode() {
-  if (!code.value)
-    return
-
   try {
     await editor.getAction('editor.action.formatDocument')?.run()
   }
@@ -92,9 +86,6 @@ async function saveCode() {
 }
 
 function clearCode() {
-  if (!code.value)
-    return
-
   code.value = ''
   playgroundStore.code = ''
 
