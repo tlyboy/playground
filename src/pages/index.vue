@@ -50,9 +50,7 @@ onMounted(() => {
   })
 })
 
-function runCode() {
-  console.clear()
-
+async function runCode() {
   const oldCodeEl = document.getElementById('code')
 
   oldCodeEl?.remove()
@@ -64,9 +62,6 @@ function runCode() {
   codeEl.textContent = code.value
 
   document.body.appendChild(codeEl)
-
-  if (playgroundStore.code !== code.value)
-    playgroundStore.code = code.value
 }
 
 async function saveCode() {
@@ -86,10 +81,13 @@ async function saveCode() {
 }
 
 function clearCode() {
-  code.value = ''
-  playgroundStore.code = ''
+  if (!code.value)
+    return
 
-  console.clear()
+  code.value = ''
+
+  if (playgroundStore.code)
+    playgroundStore.code = ''
 
   ElMessage.success('清空成功')
 }
