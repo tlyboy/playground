@@ -1,44 +1,35 @@
 <script setup lang="ts">
-import * as monaco from 'monaco-editor'
+import type * as Monaco from 'monaco-editor'
 import vitesseDark from 'theme-vitesse/themes/vitesse-dark.json'
 import vitesseLight from 'theme-vitesse/themes/vitesse-light.json'
-import * as prettier from 'prettier/standalone'
-import prettierPluginBabel from 'prettier/plugins/babel'
-import prettierPluginEstree from 'prettier/plugins/estree'
-import prettierPluginHtml from 'prettier/plugins/html'
-
-monaco.editor.defineTheme('vitesse-dark', vitesseDark as any)
-monaco.editor.defineTheme('vitesse-light', vitesseLight as any)
-
-monaco.languages.registerDocumentFormattingEditProvider('javascript', {
-  async provideDocumentFormattingEdits(model) {
-    const text = await prettier.format(model.getValue(), {
-      parser: 'babel',
-      plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginHtml],
-      semi: false,
-      singleQuote: true,
-    })
-
-    return [
-      {
-        range: model.getFullModelRange(),
-        text,
-      },
-    ]
-  },
-})
-
-const editorRef = ref()
-
-async function formatCode() {
-  const editor = editorRef.value.$editor as monaco.editor.IStandaloneCodeEditor
-
-  editor.getAction('editor.action.formatDocument')?.run()
-}
 
 const { modelValue } = defineModels<{
   modelValue: string
 }>()
+
+const monaco = useMonaco()!
+
+monaco.editor.defineTheme('vitesse-dark', vitesseDark as any)
+monaco.editor.defineTheme('vitesse-light', vitesseLight as any)
+
+let editor: Monaco.editor.IStandaloneCodeEditor
+const editorRef = ref()
+
+defineExpose({
+  /**
+   * Monaco editor instance
+   */
+  $editor: editorRef,
+})
+
+onMounted(() => {
+  editor = editorRef.value!.$editor
+  editorRef.value = editor
+})
+
+onUnmounted(() => {
+  editor?.dispose()
+})
 </script>
 
 <template>
@@ -69,6 +60,5 @@ const { modelValue } = defineModels<{
         invisibleCharacters: false,
       },
     }"
-    @keydown.ctrl.s.prevent="formatCode"
   />
 </template>

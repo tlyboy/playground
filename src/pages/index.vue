@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import type * as Monaco from 'monaco-editor'
+import * as prettier from 'prettier/standalone'
+import prettierPluginBabel from 'prettier/plugins/babel'
+import prettierPluginEstree from 'prettier/plugins/estree'
+import prettierPluginHtml from 'prettier/plugins/html'
+
 definePage({
   meta: {
     layout: 'home',
@@ -8,6 +14,41 @@ definePage({
 const playgroundStore = usePlaygroundStore()
 
 const code = ref(playgroundStore.code)
+
+const monaco = useMonaco()!
+
+monaco.languages.registerDocumentFormattingEditProvider('javascript', {
+  async provideDocumentFormattingEdits(model) {
+    const text = await prettier.format(model.getValue(), {
+      parser: 'babel',
+      plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginHtml],
+      semi: false,
+      singleQuote: true,
+    })
+
+    return [
+      {
+        range: model.getFullModelRange(),
+        text,
+      },
+    ]
+  },
+})
+
+let editor: Monaco.editor.IStandaloneCodeEditor
+const editorRef = ref()
+
+onMounted(() => {
+  editor = editorRef.value!.$editor
+
+  editor.addCommand(monaco.KeyCode.F5, () => {
+    runCode()
+  })
+
+  editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+    saveCode()
+  })
+})
 
 function runCode() {
   if (!code.value)
@@ -30,9 +71,11 @@ function runCode() {
     playgroundStore.code = code.value
 }
 
-function saveCode() {
+async function saveCode() {
   if (playgroundStore.code === code.value)
     return
+
+  await editor.getAction('editor.action.formatDocument')?.run()
 
   playgroundStore.code = code.value
 
@@ -102,11 +145,10 @@ function clearCode() {
     <el-main>
       <el-scrollbar>
         <TEditor
+          ref="editorRef"
           v-model="code"
           lang="javascript"
           h="[calc(100vh_-_60px)]"
-          @keydown.ctrl.s.prevent="saveCode"
-          @keydown.f5.prevent="runCode"
         />
       </el-scrollbar>
     </el-main>

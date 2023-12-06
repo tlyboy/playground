@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import * as Monaco from 'monaco-editor'
+import type * as Monaco from 'monaco-editor'
 
 interface Props {
   /**
@@ -30,7 +30,7 @@ const isLoading = ref(true)
 const lang = computed(() => props.lang || props.options.language)
 
 const editorElement = ref<HTMLDivElement>()
-const monaco = Monaco
+const monaco = useMonaco()!
 
 let editor: Monaco.editor.IStandaloneCodeEditor
 let model: Monaco.editor.ITextModel
@@ -69,6 +69,11 @@ onMounted(() => {
   })
   isLoading.value = false
   emit('load', editor)
+})
+
+onUnmounted(() => {
+  editor?.dispose()
+  model?.dispose()
 })
 </script>
 
