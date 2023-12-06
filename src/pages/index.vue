@@ -54,17 +54,18 @@ function runCode() {
   if (!code.value)
     return
 
+  console.clear()
+
+  const oldCodeEl = document.getElementById('code')
+
+  oldCodeEl?.remove()
+
   const codeEl = document.createElement('script')
 
   codeEl.id = 'code'
   codeEl.type = 'module'
   codeEl.textContent = code.value
 
-  const oldCodeEl = document.getElementById('code')
-
-  oldCodeEl?.remove()
-
-  console.clear()
   document.body.appendChild(codeEl)
 
   if (playgroundStore.code !== code.value)
@@ -75,7 +76,12 @@ async function saveCode() {
   if (!code.value)
     return
 
-  await editor.getAction('editor.action.formatDocument')?.run()
+  try {
+    await editor.getAction('editor.action.formatDocument')?.run()
+  }
+  catch (error) {
+    console.error(error)
+  }
 
   if (playgroundStore.code === code.value)
     return
@@ -91,6 +97,8 @@ function clearCode() {
 
   code.value = ''
   playgroundStore.code = ''
+
+  console.clear()
 
   ElMessage.success('清空成功')
 }
