@@ -72,10 +72,13 @@ function runCode() {
 }
 
 async function saveCode() {
-  if (playgroundStore.code === code.value)
+  if (!code.value)
     return
 
   await editor.getAction('editor.action.formatDocument')?.run()
+
+  if (playgroundStore.code === code.value)
+    return
 
   playgroundStore.code = code.value
 
