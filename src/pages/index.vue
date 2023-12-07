@@ -95,7 +95,7 @@ function clearCode() {
 
 <template>
   <el-container class="layout-container" style="height: 100%" text="gray-700 dark:gray-200">
-    <el-header style="text-align: right; font-size: 12px">
+    <el-header >
       <el-row justify="space-between" align="middle" h-full>
         <el-row :gutter="10">
           <el-col :span="1.5">
