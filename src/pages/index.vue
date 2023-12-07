@@ -94,7 +94,7 @@ function clearCode() {
 </script>
 
 <template>
-  <el-container class="layout-container-demo" style="height: 100%" text="gray-700 dark:gray-200">
+  <el-container class="layout-container" style="height: 100%" text="gray-700 dark:gray-200">
     <el-header style="text-align: right; font-size: 12px">
       <el-row justify="space-between" align="middle" h-full>
         <el-row :gutter="10">
@@ -156,15 +156,15 @@ function clearCode() {
 </template>
 
 <style scoped>
-.layout-container-demo .el-header {
+.layout-container .el-header {
   position: relative;
 }
 
-.layout-container-demo .el-main {
+.layout-container .el-main {
   padding: 0;
 }
 
-.layout-container-demo .toolbar {
+.layout-container .toolbar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
