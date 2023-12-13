@@ -50,7 +50,7 @@ onMounted(() => {
   })
 })
 
-async function runCode() {
+function runCode() {
   const oldCodeEl = document.getElementById('code')
 
   oldCodeEl?.remove()
@@ -95,7 +95,7 @@ function clearCode() {
 
 <template>
   <el-container class="layout-container" style="height: 100%" text="gray-700 dark:gray-200">
-    <el-header >
+    <el-header>
       <el-row justify="space-between" align="middle" h-full>
         <el-row :gutter="10">
           <el-col :span="1.5">
