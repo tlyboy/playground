@@ -22,6 +22,7 @@ monaco.languages.registerDocumentFormattingEditProvider('javascript', {
     const text = await prettier.format(model.getValue(), {
       parser: 'babel',
       plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginHtml],
+      printWidth: 200,
       semi: false,
       singleQuote: true,
     })
