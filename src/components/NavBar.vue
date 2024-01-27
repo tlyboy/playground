@@ -4,7 +4,7 @@
       <div i-carbon-sun dark:i-carbon-moon />
     </button>
 
-    <a icon-btn rel="noreferrer" href="https://github.com/tlyboy/playground" target="_blank" title="GitHub">
+    <a icon-btn href="https://github.com/tlyboy/playground" target="_blank" rel="noopener noreferrer" title="GitHub">
       <div i-carbon-logo-github />
     </a>
   </nav>
