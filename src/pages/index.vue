@@ -138,14 +138,14 @@ function clearCode() {
         </el-row>
 
         <div class="toolbar">
-          <TNavBar />
+          <NavBar />
         </div>
       </el-row>
     </el-header>
 
     <el-main>
       <el-scrollbar>
-        <TEditor
+        <CodeEditor
           ref="editorRef"
           v-model="code"
           lang="javascript"

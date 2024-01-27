@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <TMonacoEditor
+  <MonacoEditor
     ref="editorRef"
     v-model="modelValue"
     v-bind="$attrs"
