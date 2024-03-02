@@ -1,48 +1,11 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "jsx": "preserve",
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
-    "baseUrl": ".",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "paths": {
-      "~/*": [
-        "src/*"
-      ]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
     },
-    "resolveJsonModule": true,
-    "types": [
-      "vite/client",
-      "unplugin-vue-macros/macros-global",
-      "vite-plugin-vue-layouts/client"
-    ],
-    "allowJs": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
-    "vueCompilerOptions": {
-      "plugins": [
-        "@vue-macros/volar/define-options",
-        "@vue-macros/volar/define-models",
-        "@vue-macros/volar/define-props",
-        "@vue-macros/volar/define-props-refs",
-        "@vue-macros/volar/short-vmodel",
-        "@vue-macros/volar/define-slots",
-        "@vue-macros/volar/jsx-directive",
-        "@vue-macros/volar/setup-jsdoc"
-      ]
+    {
+      "path": "./tsconfig.app.json"
     }
-  },
-  "exclude": [
-    "dist",
-    "node_modules"
   ]
 }

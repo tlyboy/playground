@@ -1,11 +1,17 @@
 <template>
-  <nav flex justify-center gap-2 text-xl>
-    <button icon-btn title="切换深色模式" @click="toggleDark">
-      <div i-carbon-sun dark:i-carbon-moon />
-    </button>
+  <nav class="flex justify-center gap-2 text-xl">
+    <button
+      class="icon-btn i-carbon-sun dark:i-carbon-moon"
+      title="切换深色模式"
+      @click="toggleDark"
+    />
 
-    <a icon-btn href="https://github.com/tlyboy/playground" target="_blank" rel="noopener noreferrer" title="GitHub">
-      <div i-carbon-logo-github />
-    </a>
+    <a
+      class="icon-btn i-carbon-logo-github"
+      href="https://github.com/tlyboy/playground"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="GitHub"
+    />
   </nav>
 </template>

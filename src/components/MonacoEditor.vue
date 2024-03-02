@@ -36,21 +36,29 @@ let editor: Monaco.editor.IStandaloneCodeEditor
 let model: Monaco.editor.ITextModel
 const editorRef = ref()
 
-watch(() => props.modelValue, () => {
-  if (editor?.getValue() !== props.modelValue)
-    editor?.setValue(props.modelValue)
-})
+watch(
+  () => props.modelValue,
+  () => {
+    if (editor?.getValue() !== props.modelValue)
+      editor?.setValue(props.modelValue)
+  },
+)
 
-watch(() => props.lang, () => {
-  if (model)
-    model.dispose()
-  model = monaco.editor.createModel(props.modelValue, lang.value)
-  editor?.setModel(model)
-})
+watch(
+  () => props.lang,
+  () => {
+    if (model) model.dispose()
+    model = monaco.editor.createModel(props.modelValue, lang.value)
+    editor?.setModel(model)
+  },
+)
 
-watch(() => props.options, () => {
-  editor?.updateOptions(props.options)
-})
+watch(
+  () => props.options,
+  () => {
+    editor?.updateOptions(props.options)
+  },
+)
 
 defineExpose({
   /**

@@ -22,7 +22,6 @@ monaco.languages.registerDocumentFormattingEditProvider('javascript', {
     const text = await prettier.format(model.getValue(), {
       parser: 'babel',
       plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginHtml],
-      printWidth: 200,
       semi: false,
       singleQuote: true,
     })
@@ -68,13 +67,11 @@ function runCode() {
 async function saveCode() {
   try {
     await editor.getAction('editor.action.formatDocument')?.run()
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
   }
 
-  if (playgroundStore.code === code.value)
-    return
+  if (playgroundStore.code === code.value) return
 
   playgroundStore.code = code.value
 
@@ -82,55 +79,44 @@ async function saveCode() {
 }
 
 function clearCode() {
-  if (!code.value)
-    return
+  if (!code.value) return
 
   code.value = ''
 
-  if (playgroundStore.code)
-    playgroundStore.code = ''
+  if (playgroundStore.code) playgroundStore.code = ''
 
   ElMessage.success('清空成功')
 }
 </script>
 
 <template>
-  <el-container class="layout-container" style="height: 100%" text="gray-700 dark:gray-200">
+  <el-container
+    class="layout-container h-full text-gray-700 dark:text-gray-200"
+    style="height: 100%"
+  >
     <el-header>
-      <el-row justify="space-between" align="middle" h-full>
+      <el-row class="h-full" justify="space-between" align="middle">
         <el-row :gutter="10">
           <el-col :span="1.5">
-            <el-button
-              type="primary"
-              plain
-              @click="runCode"
-            >
+            <el-button type="primary" plain @click="runCode">
               <template #icon>
-                <div i-carbon-play />
+                <div class="i-carbon-play" />
               </template>
               运行
             </el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button
-              type="success"
-              plain
-              @click="saveCode"
-            >
+            <el-button type="success" plain @click="saveCode">
               <template #icon>
-                <div i-carbon-save />
+                <div class="i-carbon-save" />
               </template>
               保存
             </el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button
-              type="danger"
-              plain
-              @click="clearCode"
-            >
+            <el-button type="danger" plain @click="clearCode">
               <template #icon>
-                <div i-carbon-trash-can />
+                <div class="i-carbon-trash-can" />
               </template>
               清空
             </el-button>
@@ -147,9 +133,9 @@ function clearCode() {
       <el-scrollbar>
         <CodeEditor
           ref="editorRef"
+          class="h-[calc(100vh-60px)]"
           v-model="code"
           lang="javascript"
-          h="[calc(100vh_-_60px)]"
         />
       </el-scrollbar>
     </el-main>
