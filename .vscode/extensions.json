@@ -1,7 +1,12 @@
 {
   "recommendations": [
     "Vue.volar",
+    "antfu.goto-alias",
+    "bradlc.vscode-tailwindcss",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker",
+    "zamerick.vscode-caddyfile-syntax"
   ]
 }
