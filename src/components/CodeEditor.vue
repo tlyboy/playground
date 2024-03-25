@@ -34,6 +34,7 @@ onMounted(() => {
     v-model="modelValue"
     v-bind="$attrs"
     :options="{
+      automaticLayout: true,
       theme: isDark ? 'vitesse-dark' : 'vitesse-light',
       bracketPairColorization: {
         enabled: true,
