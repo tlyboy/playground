@@ -90,56 +90,56 @@ function clearCode() {
 </script>
 
 <template>
-  <el-container
+  <ElContainer
     class="layout-container h-full text-gray-700 dark:text-gray-200"
     style="height: 100%"
   >
-    <el-header>
-      <el-row class="h-full" justify="space-between" align="middle">
-        <el-row :gutter="10">
-          <el-col :span="1.5">
-            <el-button type="primary" plain @click="runCode">
+    <ElHeader>
+      <ElRow class="h-full" justify="space-between" align="middle">
+        <ElRow :gutter="10">
+          <ElCol :span="1.5">
+            <ElButton type="primary" plain @click="runCode">
               <template #icon>
-                <div class="i-carbon-play" />
+                <div class="i-carbon-play"></div>
               </template>
               运行
-            </el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button type="success" plain @click="saveCode">
+            </ElButton>
+          </ElCol>
+          <ElCol :span="1.5">
+            <ElButton type="success" plain @click="saveCode">
               <template #icon>
-                <div class="i-carbon-save" />
+                <div class="i-carbon-save"></div>
               </template>
               保存
-            </el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button type="danger" plain @click="clearCode">
+            </ElButton>
+          </ElCol>
+          <ElCol :span="1.5">
+            <ElButton type="danger" plain @click="clearCode">
               <template #icon>
-                <div class="i-carbon-trash-can" />
+                <div class="i-carbon-trash-can"></div>
               </template>
               清空
-            </el-button>
-          </el-col>
-        </el-row>
+            </ElButton>
+          </ElCol>
+        </ElRow>
 
         <div class="toolbar">
           <NavBar />
         </div>
-      </el-row>
-    </el-header>
+      </ElRow>
+    </ElHeader>
 
-    <el-main>
-      <el-scrollbar>
+    <ElMain>
+      <ElScrollbar>
         <CodeEditor
           ref="editorRef"
           class="h-[calc(100vh-60px)]"
           v-model="code"
           lang="javascript"
         />
-      </el-scrollbar>
-    </el-main>
-  </el-container>
+      </ElScrollbar>
+    </ElMain>
+  </ElContainer>
 </template>
 
 <style scoped>

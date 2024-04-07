@@ -13,6 +13,22 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          normal: 'never',
+          void: 'always',
+        },
+      },
+    ],
+    'vue/component-name-in-template-casing': [
+      'error',
+      'PascalCase',
+      {
+        registeredComponentsOnly: false,
+      },
+    ],
     'vue/multi-word-component-names': 'off',
   },
 }

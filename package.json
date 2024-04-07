@@ -7,7 +7,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "build-only": "vite build",
     "dev": "vite",
-    "format": "prettier --write src/",
+    "format": "prettier --write .",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "preview": "vite preview",
     "type-check": "vue-tsc --build --force"

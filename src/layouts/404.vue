@@ -5,7 +5,7 @@ const router = useRouter()
 <template>
   <main class="px-4 py-10 text-center text-[#3498db] dark:text-gray-200">
     <div class="text-4xl">
-      <div class="i-carbon-warning inline-block" />
+      <div class="i-carbon-warning inline-block"></div>
     </div>
     <RouterView />
     <div>

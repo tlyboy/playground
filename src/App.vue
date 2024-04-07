@@ -5,7 +5,7 @@ const locale = ref(zhCn)
 </script>
 
 <template>
-  <el-config-provider :locale="locale">
+  <ElConfigProvider :locale="locale">
     <RouterView />
-  </el-config-provider>
+  </ElConfigProvider>
 </template>

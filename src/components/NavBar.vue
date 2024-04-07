@@ -4,7 +4,7 @@
       class="icon-btn i-carbon-sun dark:i-carbon-moon"
       title="切换深色模式"
       @click="toggleDark"
-    />
+    ></button>
 
     <a
       class="icon-btn i-carbon-logo-github"
@@ -12,6 +12,6 @@
       target="_blank"
       rel="noopener noreferrer"
       title="GitHub"
-    />
+    ></a>
   </nav>
 </template>
