@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getHighlighter } from 'shiki'
+import { shikiToMonaco } from '@shikijs/monaco'
 import type * as Monaco from 'monaco-editor'
 import * as prettier from 'prettier/standalone'
 import prettierPluginBabel from 'prettier/plugins/babel'
@@ -11,34 +13,47 @@ definePage({
   },
 })
 
+const monaco = useMonaco()!
+
+const editorRef = ref()
+let editor: Monaco.editor.IStandaloneCodeEditor
+
 const playgroundStore = usePlaygroundStore()
 
 const code = ref(playgroundStore.code)
 
-const monaco = useMonaco()!
+onMounted(async () => {
+  const highlighter = await getHighlighter({
+    themes: ['vitesse-dark', 'vitesse-light'],
+    langs: ['javascript'],
+  })
 
-monaco.languages.registerDocumentFormattingEditProvider('javascript', {
-  async provideDocumentFormattingEdits(model) {
-    const text = await prettier.format(model.getValue(), {
-      parser: 'babel',
-      plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginHtml],
-      semi: false,
-      singleQuote: true,
-    })
+  monaco.languages.register({ id: 'javascript' })
 
-    return [
-      {
-        range: model.getFullModelRange(),
-        text,
-      },
-    ]
-  },
-})
+  shikiToMonaco(highlighter, monaco)
 
-let editor: Monaco.editor.IStandaloneCodeEditor
-const editorRef = ref()
+  monaco.languages.registerDocumentFormattingEditProvider('javascript', {
+    async provideDocumentFormattingEdits(model) {
+      const text = await prettier.format(model.getValue(), {
+        parser: 'babel',
+        plugins: [
+          prettierPluginBabel,
+          prettierPluginEstree,
+          prettierPluginHtml,
+        ],
+        semi: false,
+        singleQuote: true,
+      })
 
-onMounted(() => {
+      return [
+        {
+          range: model.getFullModelRange(),
+          text,
+        },
+      ]
+    },
+  })
+
   editor = editorRef.value!.$editor
 
   editor.addCommand(monaco.KeyCode.F5, () => {
@@ -94,48 +109,68 @@ function clearCode() {
     class="layout-container h-full text-gray-700 dark:text-gray-200"
     style="height: 100%"
   >
-    <ElHeader>
-      <ElRow class="h-full" justify="space-between" align="middle">
-        <ElRow :gutter="10">
-          <ElCol :span="1.5">
-            <ElButton type="primary" plain @click="runCode">
-              <template #icon>
-                <div class="i-carbon-play"></div>
-              </template>
-              运行
-            </ElButton>
-          </ElCol>
-          <ElCol :span="1.5">
-            <ElButton type="success" plain @click="saveCode">
-              <template #icon>
-                <div class="i-carbon-save"></div>
-              </template>
-              保存
-            </ElButton>
-          </ElCol>
-          <ElCol :span="1.5">
-            <ElButton type="danger" plain @click="clearCode">
-              <template #icon>
-                <div class="i-carbon-trash-can"></div>
-              </template>
-              清空
-            </ElButton>
-          </ElCol>
-        </ElRow>
-
-        <div class="toolbar">
-          <NavBar />
-        </div>
+    <ElHeader class="flex items-center justify-between">
+      <ElRow :gutter="10">
+        <ElCol :span="1.5">
+          <ElButton type="primary" plain @click="runCode">
+            <template #icon>
+              <div class="i-carbon-play"></div>
+            </template>
+            运行
+          </ElButton>
+        </ElCol>
+        <ElCol :span="1.5">
+          <ElButton type="success" plain @click="saveCode">
+            <template #icon>
+              <div class="i-carbon-save"></div>
+            </template>
+            保存
+          </ElButton>
+        </ElCol>
+        <ElCol :span="1.5">
+          <ElButton type="danger" plain @click="clearCode">
+            <template #icon>
+              <div class="i-carbon-trash-can"></div>
+            </template>
+            清空
+          </ElButton>
+        </ElCol>
       </ElRow>
+
+      <NavBar />
     </ElHeader>
 
     <ElMain>
       <ElScrollbar>
-        <CodeEditor
+        <MonacoEditor
           ref="editorRef"
           class="h-[calc(100vh-60px)]"
           v-model="code"
           lang="javascript"
+          :options="{
+            automaticLayout: true,
+            theme: isDark ? 'vitesse-dark' : 'vitesse-light',
+            bracketPairColorization: {
+              enabled: true,
+            },
+            cursorSmoothCaretAnimation: 'on',
+            detectIndentation: false,
+            fontFamily: `'FiraCode Nerd Font', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace`,
+            fontLigatures: true,
+            fontSize: 16,
+            guides: {
+              bracketPairs: 'active',
+            },
+            inlineSuggest: {
+              enabled: true,
+            },
+            smoothScrolling: true,
+            tabSize: 2,
+            unicodeHighlight: {
+              ambiguousCharacters: false,
+              invisibleCharacters: false,
+            },
+          }"
         />
       </ElScrollbar>
     </ElMain>
@@ -145,17 +180,10 @@ function clearCode() {
 <style scoped>
 .layout-container .el-header {
   position: relative;
+  color: var(--el-text-color-primary);
 }
 
 .layout-container .el-main {
   padding: 0;
-}
-
-.layout-container .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
 }
 </style>
