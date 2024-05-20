@@ -110,77 +110,84 @@ function clearCode() {
     style="height: 100%"
   >
     <ElHeader class="flex items-center justify-between">
-      <ElRow :gutter="10">
-        <ElCol :span="1.5">
-          <ElButton type="primary" plain @click="runCode">
-            <template #icon>
-              <div class="i-carbon-play"></div>
-            </template>
-            运行
-          </ElButton>
-        </ElCol>
-        <ElCol :span="1.5">
-          <ElButton type="success" plain @click="saveCode">
-            <template #icon>
-              <div class="i-carbon-save"></div>
-            </template>
-            保存
-          </ElButton>
-        </ElCol>
-        <ElCol :span="1.5">
-          <ElButton type="danger" plain @click="clearCode">
-            <template #icon>
-              <div class="i-carbon-trash-can"></div>
-            </template>
-            清空
-          </ElButton>
-        </ElCol>
-      </ElRow>
+      <div class="w-[calc(100%-76px)]">
+        <div class="truncate">🎮 Playground</div>
+      </div>
 
       <NavBar />
     </ElHeader>
 
     <ElMain>
       <ElScrollbar>
-        <MonacoEditor
-          ref="editorRef"
-          class="h-[calc(100vh-60px)]"
-          v-model="code"
-          lang="javascript"
-          :options="{
-            automaticLayout: true,
-            theme: isDark ? 'vitesse-dark' : 'vitesse-light',
-            bracketPairColorization: {
-              enabled: true,
-            },
-            cursorSmoothCaretAnimation: 'on',
-            detectIndentation: false,
-            fontFamily: `'FiraCode Nerd Font', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace`,
-            fontLigatures: true,
-            fontSize: 16,
-            guides: {
-              bracketPairs: 'active',
-            },
-            inlineSuggest: {
-              enabled: true,
-            },
-            smoothScrolling: true,
-            tabSize: 2,
-            unicodeHighlight: {
-              ambiguousCharacters: false,
-              invisibleCharacters: false,
-            },
-          }"
-        />
+        <div class="app-container">
+          <ElRow :gutter="10" class="mb8">
+            <ElCol :span="1.5">
+              <ElButton type="primary" plain @click="runCode">
+                <template #icon>
+                  <div class="i-carbon-play"></div>
+                </template>
+                运行
+              </ElButton>
+            </ElCol>
+            <ElCol :span="1.5">
+              <ElButton type="success" plain @click="saveCode">
+                <template #icon>
+                  <div class="i-carbon-save"></div>
+                </template>
+                保存
+              </ElButton>
+            </ElCol>
+            <ElCol :span="1.5">
+              <ElButton type="danger" plain @click="clearCode">
+                <template #icon>
+                  <div class="i-carbon-trash-can"></div>
+                </template>
+                清空
+              </ElButton>
+            </ElCol>
+          </ElRow>
+
+          <MonacoEditor
+            ref="editorRef"
+            class="h-[calc(100vh-80px)]"
+            v-model="code"
+            lang="javascript"
+            :options="{
+              automaticLayout: true,
+              theme: isDark ? 'vitesse-dark' : 'vitesse-light',
+              bracketPairColorization: {
+                enabled: true,
+              },
+              cursorSmoothCaretAnimation: 'on',
+              detectIndentation: false,
+              fontFamily: `'FiraCode Nerd Font', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace`,
+              fontLigatures: true,
+              fontSize: 16,
+              guides: {
+                bracketPairs: 'active',
+              },
+              inlineSuggest: {
+                enabled: true,
+              },
+              smoothScrolling: true,
+              tabSize: 2,
+              unicodeHighlight: {
+                ambiguousCharacters: false,
+                invisibleCharacters: false,
+              },
+            }"
+          />
+        </div>
       </ElScrollbar>
     </ElMain>
   </ElContainer>
 </template>
 
-<style scoped>
+<style>
 .layout-container .el-header {
   position: relative;
   color: var(--el-text-color-primary);
+  border-bottom: 1px solid var(--el-color-info-light-7);
 }
 
 .layout-container .el-main {
