@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { getHighlighter } from 'shiki'
-import { shikiToMonaco } from '@shikijs/monaco'
 import type * as Monaco from 'monaco-editor'
 import * as prettier from 'prettier/standalone'
 import prettierPluginBabel from 'prettier/plugins/babel'
@@ -13,47 +11,34 @@ definePage({
   },
 })
 
-const monaco = useMonaco()!
-
-const editorRef = ref()
-let editor: Monaco.editor.IStandaloneCodeEditor
-
 const playgroundStore = usePlaygroundStore()
 
 const code = ref(playgroundStore.code)
 
-onMounted(async () => {
-  const highlighter = await getHighlighter({
-    themes: ['vitesse-dark', 'vitesse-light'],
-    langs: ['javascript'],
-  })
+const monaco = useMonaco()!
 
-  monaco.languages.register({ id: 'javascript' })
+monaco.languages.registerDocumentFormattingEditProvider('javascript', {
+  async provideDocumentFormattingEdits(model) {
+    const text = await prettier.format(model.getValue(), {
+      parser: 'babel',
+      plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginHtml],
+      semi: false,
+      singleQuote: true,
+    })
 
-  shikiToMonaco(highlighter, monaco)
+    return [
+      {
+        range: model.getFullModelRange(),
+        text,
+      },
+    ]
+  },
+})
 
-  monaco.languages.registerDocumentFormattingEditProvider('javascript', {
-    async provideDocumentFormattingEdits(model) {
-      const text = await prettier.format(model.getValue(), {
-        parser: 'babel',
-        plugins: [
-          prettierPluginBabel,
-          prettierPluginEstree,
-          prettierPluginHtml,
-        ],
-        semi: false,
-        singleQuote: true,
-      })
+let editor: Monaco.editor.IStandaloneCodeEditor
+const editorRef = ref()
 
-      return [
-        {
-          range: model.getFullModelRange(),
-          text,
-        },
-      ]
-    },
-  })
-
+onMounted(() => {
   editor = editorRef.value!.$editor
 
   editor.addCommand(monaco.KeyCode.F5, () => {
@@ -147,35 +132,11 @@ function clearCode() {
             </ElCol>
           </ElRow>
 
-          <MonacoEditor
+          <CodeEditor
             ref="editorRef"
             class="h-[calc(100vh-80px)]"
             v-model="code"
             lang="javascript"
-            :options="{
-              automaticLayout: true,
-              theme: isDark ? 'vitesse-dark' : 'vitesse-light',
-              bracketPairColorization: {
-                enabled: true,
-              },
-              cursorSmoothCaretAnimation: 'on',
-              detectIndentation: false,
-              fontFamily: `'FiraCode Nerd Font', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace`,
-              fontLigatures: true,
-              fontSize: 16,
-              guides: {
-                bracketPairs: 'active',
-              },
-              inlineSuggest: {
-                enabled: true,
-              },
-              smoothScrolling: true,
-              tabSize: 2,
-              unicodeHighlight: {
-                ambiguousCharacters: false,
-                invisibleCharacters: false,
-              },
-            }"
           />
         </div>
       </ElScrollbar>

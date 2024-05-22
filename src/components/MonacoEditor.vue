@@ -1,12 +1,5 @@
-<template>
-  <div ref="editorElement">
-    <slot v-if="isLoading"></slot>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import type * as Monaco from 'monaco-editor'
-import { defu } from 'defu'
 
 interface Props {
   /**
@@ -31,35 +24,30 @@ const props = withDefaults(defineProps<Props>(), {
   options: () => ({}),
   modelValue: () => '',
 })
-
 const emit = defineEmits<Emits>()
 const isLoading = ref(true)
+
 const lang = computed(() => props.lang || props.options.language)
-const editorRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
+
 const editorElement = ref<HTMLDivElement>()
 const monaco = useMonaco()!
-const defaultOptions: Monaco.editor.IStandaloneEditorConstructionOptions = {
-  automaticLayout: true,
-}
 
 let editor: Monaco.editor.IStandaloneCodeEditor
 let model: Monaco.editor.ITextModel
+const editorRef = ref()
 
 watch(
   () => props.modelValue,
   () => {
-    if (editor?.getValue() !== props.modelValue) {
+    if (editor?.getValue() !== props.modelValue)
       editor?.setValue(props.modelValue)
-    }
   },
 )
 
 watch(
   () => props.lang,
   () => {
-    if (model) {
-      model.dispose()
-    }
+    if (model) model.dispose()
     model = monaco.editor.createModel(props.modelValue, lang.value)
     editor?.setModel(model)
   },
@@ -68,28 +56,9 @@ watch(
 watch(
   () => props.options,
   () => {
-    editor?.updateOptions(defu(props.options, defaultOptions))
+    editor?.updateOptions(props.options)
   },
 )
-
-watch(editorElement, (newValue, oldValue) => {
-  if (!editorElement.value || oldValue) {
-    return
-  }
-  editor = monaco.editor.create(
-    editorElement.value!,
-    defu(props.options, defaultOptions),
-  )
-  model = monaco.editor.createModel(props.modelValue, lang.value)
-  editorRef.value = editor
-  editor.layout()
-  editor.setModel(model)
-  editor.onDidChangeModelContent(() => {
-    emit('update:modelValue', editor.getValue())
-  })
-  isLoading.value = false
-  emit('load', editor)
-})
 
 defineExpose({
   /**
@@ -98,8 +67,26 @@ defineExpose({
   $editor: editorRef,
 })
 
-onBeforeUnmount(() => {
+onMounted(() => {
+  editor = monaco.editor.create(editorElement.value!, props.options)
+  editorRef.value = editor
+  model = monaco.editor.createModel(props.modelValue, lang.value)
+  editor.setModel(model)
+  editor.onDidChangeModelContent(() => {
+    emit('update:modelValue', editor.getValue())
+  })
+  isLoading.value = false
+  emit('load', editor)
+})
+
+onUnmounted(() => {
   editor?.dispose()
   model?.dispose()
 })
 </script>
+
+<template>
+  <div ref="editorElement">
+    <slot v-if="isLoading"></slot>
+  </div>
+</template>
