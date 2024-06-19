@@ -14,9 +14,6 @@ importers:
       element-plus:
         specifier: ^2.7.4
         version: 2.7.4(vue@3.4.27(typescript@5.3.3))
-      monaco-editor:
-        specifier: ^0.46.0
-        version: 0.46.0
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
