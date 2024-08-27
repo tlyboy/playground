@@ -7,8 +7,32 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <div class="flex h-screen items-center justify-center">
-      <h1 class="animate-bounce text-3xl font-bold underline">hello world</h1>
+    <div id="app">
+      <div class="flex h-screen items-center justify-center">
+        <button class="rounded bg-blue-400 px-4 py-2 text-white" @click="add">
+          + {{count}}
+        </button>
+      </div>
     </div>
+
+    <script type="module">
+      import {
+        createApp,
+        ref,
+      } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+      createApp({
+        setup() {
+          const count = ref(0)
+
+          const add = () => count.value++
+
+          return {
+            count,
+            add,
+          }
+        },
+      }).mount('#app')
+    </script>
   </body>
 </html>
